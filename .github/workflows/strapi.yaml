@@ -48,8 +48,10 @@
                 echo "Realizando verificaciones..."
                 # Ejemplo: curl "$NGROK_URL/api/some-endpoint" para verificar que responde correctamente
 
-            - name: Stop ngrok and Strapi
-              if: always()
+              name: Keep alive
               run: |
-                pkill -f ngrok
-                pkill -f "strapi develop"
+               echo "Manteniendo el servicio activo..."
+               while true; do
+               curl -s $NGROK_URL > /dev/null
+               sleep 300000  # Espera 5 minutos entre cada petición
+        done
