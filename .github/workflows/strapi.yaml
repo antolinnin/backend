@@ -1,34 +1,56 @@
-name: Strapi CI
+        name: Strapi CI with ngrok
 
-on:
-  push:
-    branches: [ main ]
-  pull_request:
-    branches: [ main ]
+        on:
+          push:
+            branches: [ main ]
+          pull_request:
+            branches: [ main ]
 
-jobs:
-  test:
-    runs-on: ubuntu-latest
-    
-    steps:
-    - uses: actions/checkout@v2
-    
-    - name: Use Node.js
-      uses: actions/setup-node@v2
-      with:
-        node-version: '18'  # O la versión que uses en tu proyecto
-        
-    - name: Install dependencies
-      run: npm ci
-      
-    - name: Build Strapi
-      run: npm run build
-      
-    - name: Run tests
-      run: npm run test
-      
-    - name: Start Strapi and run custom tests
-      run: |
-        npm run develop &
-        sleep 30  # Espera a que Strapi se inicie completamente
-        npm run test:e2e  # Ejecuta tus pruebas end-to-end o cualquier otra prueba personalizada
+        jobs:
+          build-and-test:
+            runs-on: ubuntu-latest
+
+            steps:
+            - uses: actions/checkout@v2
+
+            - name: Use Node.js
+              uses: actions/setup-node@v2
+              with:
+                node-version: '16'  # Ajusta según tu versión de Node.js
+
+            - name: Install dependencies
+              run: npm ci
+
+            - name: Build Strapi
+              run: npm run build
+
+            - name: Install ngrok
+              run: npm install -g ngrok
+
+            - name: Start Strapi and expose with ngrok
+              run: |
+                ngrok config add-authtoken ${{ secrets.NGROK_AUTH_TOKEN }}
+                npm run develop &
+                sleep 30  # Espera a que Strapi se inicie completamente
+                ngrok http 1337 &  # Asume que Strapi corre en el puerto 1337
+                sleep 10  # Espera a que ngrok se establezca
+                NGROK_URL=$(curl -s http://localhost:4040/api/tunnels | jq -r '.tunnels[0].public_url')
+                echo "Strapi está disponible en: $NGROK_URL"
+            env:
+        NGROK_AUTH_TOKEN: ${{ secrets.NGROK_AUTH_TOKEN }}
+              
+            - name: Run seed script (if needed)
+              run: npm run seed:example
+
+            - name: Perform manual checks or custom scripts
+              run: |
+                # Aquí puedes agregar comandos para realizar verificaciones manuales
+                # o ejecutar scripts personalizados que prueben tu instancia de Strapi
+                echo "Realizando verificaciones..."
+                # Ejemplo: curl "$NGROK_URL/api/some-endpoint" para verificar que responde correctamente
+
+            - name: Stop ngrok and Strapi
+              if: always()
+              run: |
+                pkill -f ngrok
+                pkill -f "strapi develop"
