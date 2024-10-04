@@ -13,12 +13,15 @@ jobs:
     - name: Extract
       run: Expand-Archive ngrok.zip
     - name: Auth
-      run: .\ngrok\ngrok.exe ngrok config add-authtoken 2mJwZW4vPN0hflENJOJllJeg9yh_6XEy2vnw4AQw3SbNgM5EP
-    - name: Enable TS
-      run: Set-ItemProperty -Path 'HKLM:\System\CurrentControlSet\Control\Terminal Server'-name "fDenyTSConnections" -Value 0
-    - run: Enable-NetFirewallRule -DisplayGroup "Remote Desktop"
-    - run: Set-ItemProperty -Path 'HKLM:\System\CurrentControlSet\Control\Terminal Server\WinStations\RDP-Tcp' -name "UserAuthentication" -Value 1
-    - run: Set-LocalUser -Name "runneradmin" -Password (ConvertTo-SecureString -AsPlainText "P@ssw0rd!" -Force)
+      run: .\ngrok\ngrok.exe ngrok config add-auth
+    name: Checkout código
+            uses: actions/checkout@v2
+    name: Configurar Git
+    run: |
+              git config --global url."https://${GH_PAT}@github.com/".insteadOf "https://github.com/"
+            env:
+              GH_PAT: ${{ secrets.GH_PAT }}
+
     - name: Create Tunnel and Run Strapi
       run: git clone https://github.com/antolinnin/backend.git
     name: Iniciar Base Final
