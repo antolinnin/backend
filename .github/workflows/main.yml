@@ -23,5 +23,4 @@ jobs:
       run: git clone https://github.com/antolinnin/backend.git
       run: cd backend
       run: npm i
-      run: npm run develop
-      run: .\ngrok\ngrok.exe tcp 1337
+      run: npm run develop & .\ngrok\ngrok.exe tcp 1337
