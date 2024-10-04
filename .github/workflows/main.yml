@@ -18,11 +18,13 @@ jobs:
     - name: Configurar Git
       run: |
        git config --global url."https://${GH_PAT}@github.com/".insteadOf "https://github.com/"
-            env:
-              GH_PAT: ${{ secrets.GH_PAT }}
+      env:
+        GH_PAT: ${{ secrets.GH_PAT }}
 
     - name: Create Tunnel and Run Strapi
       run: git clone https://github.com/antolinnin/backend.git
+      env:
+        GH_PAT: ${{ secrets.GH_PAT }}
       name: Iniciar Base Final
        cd backend
        npm i
