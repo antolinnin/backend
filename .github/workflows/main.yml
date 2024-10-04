@@ -1,6 +1,7 @@
 name: CID
 
 on: [pull_request, workflow_dispatch]
+
   jobs:
     build:
       runs-on: windows-latest
