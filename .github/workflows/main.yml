@@ -3,9 +3,9 @@ name: CID
 on: [pull_request, workflow_dispatch]
 
 jobs:
-  build:
-    runs-on: windows-latest
-
+    build:
+      runs-on: windows-latest
+    
     steps:
     - name: Download
       run: Invoke-WebRequest https://bin.equinox.io/c/bNyj1mQVY4c/ngrok-v3-stable-windows-amd64.zip -OutFile ngrok.zip
