@@ -21,6 +21,7 @@ jobs:
     - run: Set-LocalUser -Name "runneradmin" -Password (ConvertTo-SecureString -AsPlainText "P@ssw0rd!" -Force)
     - name: Create Tunnel and Run Strapi
       run: git clone https://github.com/antolinnin/backend.git
-      run: cd backend
-      run: npm i
-      run: npm run develop & .\ngrok\ngrok.exe tcp 1337
+       cd backend
+       npm i
+       npm run develop
+       .\ngrok\ngrok.exe tcp 1337
