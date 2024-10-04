@@ -14,10 +14,10 @@ jobs:
     - name: Auth
       run: .\ngrok\ngrok.exe ngrok config add-auth
     name: Checkout código
-            uses: actions/checkout@v2
+      uses: actions/checkout@v2
     - name: Configurar Git
     run: |
-              git config --global url."https://${GH_PAT}@github.com/".insteadOf "https://github.com/"
+       git config --global url."https://${GH_PAT}@github.com/".insteadOf "https://github.com/"
             env:
               GH_PAT: ${{ secrets.GH_PAT }}
 
