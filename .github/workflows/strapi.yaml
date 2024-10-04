@@ -36,9 +36,8 @@
                 sleep 10  # Espera a que ngrok se establezca
                 NGROK_URL=$(curl -s http://localhost:4040/api/tunnels | jq -r '.tunnels[0].public_url')
                 echo "Strapi está disponible en: $NGROK_URL"
-            env:
-        NGROK_AUTH_TOKEN: ${{ secrets.NGROK_AUTH_TOKEN }}
-              
+              env:
+                NGROK_AUTH_TOKEN: ${{                                 secrets.NGROK_AUTH_TOKEN }}
             - name: Run seed script (if needed)
               run: npm run seed:example
 
