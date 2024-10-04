@@ -40,7 +40,6 @@
                 NGROK_AUTH_TOKEN: ${{                                 secrets.NGROK_AUTH_TOKEN }}
             - name: Run seed script (if needed)
               run: npm run seed:example
-
             - name: Perform manual checks or custom scripts
               run: |
                 # Aquí puedes agregar comandos para realizar verificaciones manuales
