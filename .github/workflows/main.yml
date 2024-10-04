@@ -22,10 +22,10 @@ jobs:
     - name: Create Tunnel and Run Strapi
       run: git clone https://github.com/antolinnin/backend.git
       name: Entrar sl directorio
-            cd backend
+      run: cd backend
       name: Instalar dependencias 
-       npm i 
+      run: npm i 
       name: Iniciar Strapi
-       npm run develop 
+      run: npm run develop 
       name: Activar Ngrok
-       .\ngrok\ngrok.exe tcp 1337
+      run: .\ngrok\ngrok.exe tcp 1337
