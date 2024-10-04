@@ -23,9 +23,6 @@ jobs:
     - name: Configurar Git
       run: |
         git config --global url."https://${{ secrets.GH_PAT }}@github.com/".insteadOf "https://github.com/"
-
-    - name: Clonar repositorio privado
-      run: git clone https://github.com/antolinnin/backend.git
       env:
         GH_PAT: ${{ secrets.GH_PAT }}
 
