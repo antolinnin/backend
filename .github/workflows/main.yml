@@ -13,18 +13,18 @@ jobs:
       run: Expand-Archive ngrok.zip
     - name: Auth
       run: .\ngrok\ngrok.exe ngrok config add-auth
-    name: Checkout código
+      name: Checkout código
       uses: actions/checkout@v2
     - name: Configurar Git
-    run: |
+      run: |
        git config --global url."https://${GH_PAT}@github.com/".insteadOf "https://github.com/"
             env:
               GH_PAT: ${{ secrets.GH_PAT }}
 
     - name: Create Tunnel and Run Strapi
       run: git clone https://github.com/antolinnin/backend.git
-    name: Iniciar Base Final
-      cd backend
-      npm i
-      npm run develop
-      .\ngrok\ngrok.exe tcp 1337
+      name: Iniciar Base Final
+       cd backend
+       npm i
+       npm run develop
+       .\ngrok\ngrok.exe tcp 1337
